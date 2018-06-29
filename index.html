@@ -745,14 +745,14 @@ class Dog {
         return `Just ${this.weight - 5}kg!`;
     }
 
-    set youAreFatter(value) {
+    set youGotFat(value) {
         this.weight++
     }
 }
 
 const fatDoggo = new Dog('Pedro', 12);
-console.log(fatDoggo.youAreFat);
-fatDoggo.youAreFatter = 10;
+console.log(fatDoggo.youAreFat); // Just 7kg!
+fatDoggo.youGotFat = 10; // fatDoggo.weight === 13
 
 ```
 
