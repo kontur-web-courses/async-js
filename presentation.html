@@ -1,0 +1,789 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/kontur-light.css" id="theme">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="reveal/css/highlight/idea-for-light.css">
+    <link rel="stylesheet" href="reveal/css/highlight/darkula-for-dark.css">
+    <!--[if lt IE 9]>
+    <script src="reveal/js/html5shiv.js"></script>
+    <![endif]-->
+    <script defer src="reveal/js/head.min.js"></script>
+    <script defer src="reveal/js/reveal.js"></script>
+    <script defer src="reveal/initialize.js"></script>
+    <script defer src="reveal/js/d3.min.js"></script>
+
+    <title>Vanilla JS</title>
+</head>
+<body>
+
+<div class="reveal"><div class="slides">
+
+<section data-markdown><script type="text/template">
+# Advanced JavaScript
+
+<p style="text-align: center">
+    <a href="https://github.com/kontur-courses/vanilla-js">https://github.com/kontur-courses/<b>vanilla-js</b></a>
+</p>
+</script></section>
+
+
+<section data-markdown><script type="text/template">
+
+## ES6+. Разбор домашки
+
+***
+
+### Популярные замечания
+
+#### var -> let
+
+- Чем const отличается от let?
+- В каких случаях стоит использовать const, а в каких let?
+
+***
+
+
+#### spread вместо rest
+
+Было в задании:
+```js
+this.setColumns = function () {
+    this.columns = [].slice.call(arguments);
+};
+```
+
+Ваши ответы:
+```js
+this.setColumns = function () {
+this.columns = [...arguments];
+};
+```
+
+
+Мое решение:
+```js
+this.setColumns = function (...rest) {
+    this.columns = rest;
+};
+```
+
+***
+
+
+#### Приведение к строке при помощи string template
+
+```js
+const item = `${this.columns[colIndex]}`;
+```
+
+- Какие существуют методы приведения к строке?
+
+***
+
+
+#### убирание {}
+
+```js
+if (something)
+    doSomething()
+```
+
+- Это не ES6+, это просто плохая практика.
+
+***
+
+#### padEnd и repeat
+
+Мое решение:
+```js
+' '.repeat(this.padding);
+this.hSeparator.repeat(rowWidth);
+
+// ...
+
+item.padEnd(cellWidth)
+```
+
+***
+
+#### DRY
+
+```js
+this._createHead = function (columnWidths, cellPadding) {
+    var result = '';
+
+    for (var colIndex = 0; colIndex < this.columns.length; colIndex++) {
+        var item = String(this.columns[colIndex]);
+        var formattedItem = item + repeatString(' ', columnWidths[colIndex] - item.length);
+        result += cellPadding + formattedItem + cellPadding + this.vSeparator;
+    }
+
+    return result;
+};
+```
+
+```js
+this._createRow = function (row, columnWidths, cellPadding) {
+    var result = '';
+
+    for (var colIndex = 0; colIndex < this.columns.length; colIndex++) {
+        var item = String(row[colIndex]);
+        var formattedItem = item + repeatString(' ', columnWidths[colIndex] - item.length);
+        result += cellPadding + formattedItem + cellPadding + this.vSeparator;
+    }
+
+    return result;
+};
+```
+
+***
+
+#### Arrow function
+
+```js
+this._mouseoverHandler = function (event) {
+    this.style.color = event.target.textContent;
+};
+
+this._mouseoutHandler = function () {
+    this.style.color = null;
+};
+```
+
+***
+
+#### Arrow function
+
+```js
+function clickHandler (event) {
+    if (event.target.tagName.toLowerCase() !== 'span') {
+        return;
+    }
+    this.style.color = event.target.textContent;
+};
+```
+
+***
+
+- Как впечатления от домашки?
+- Кто узнал что-то новое, пока ее делал?
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+## EventLoop
+
+***
+
+### Что происходит в этом коде?
+
+```
+var clickCount = 0;
+document.addEventListener("click", function() {
+    clickCount++;
+    console.log("clicked", clickCount);
+});
+
+while (clickCount !== 5) {
+    console.log("wait");
+}
+
+console.log("5 clicks!");
+
+```
+
+***
+
+### Запустите этот код в браузере
+
+
+```
+var clickCount = 0;
+document.addEventListener("click", function() {
+    clickCount++;
+    console.log("clicked", clickCount);
+});
+
+while (clickCount !== 5) {
+    console.log("wait");
+}
+
+console.log("5 clicks!");
+
+```
+
+Его можно скопировать из файла `tasks/event-loop.js`
+
+***
+
+### Что происходит? Почему так?
+
+```
+var clickCount = 0;
+document.addEventListener("click", function() {
+    clickCount++;
+    console.log("clicked", clickCount);
+});
+
+while (clickCount !== 5) {
+    console.log("wait");
+}
+
+console.log("5 clicks!");
+
+```
+
+***
+
+### Event Loop
+
+// TODO: теория
+
+***
+
+### Перепишите код, чтобы он заработал
+
+
+```
+var clickCount = 0;
+document.addEventListener("click", function() {
+    clickCount++;
+    console.log("clicked", clickCount);
+});
+
+while (clickCount !== 5) {
+    console.log("wait");
+}
+
+console.log("5 clicks!");
+
+```
+
+***
+
+### Закрепим результат
+
+```
+function doAsync(x) {
+    return new Promise((resolve, reject) => {
+        if (x) {
+            resolve(2);
+        } else {
+            reject(1);
+        }
+    });
+}
+var a = 0;
+
+doAsync(false)
+    .then(x => a = x)
+    .catch(e => a = e);
+
+console.log(a);
+
+```
+
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Asynchronous JS
+
+***
+
+### 1. Callbacks
+
+***
+
+```js
+setTimeout(function() {
+    // do something
+}, 1000);
+```
+
+
+```js
+window.addEventListener('load', onLoad);
+```
+
+***
+
+### Callback hell
+
+<img src="asserts/callback_hell.png">
+
+***
+
+### 2. Promises
+
+***
+
+<b>Promise (обещание)</b> — объект, который используется для отложенных и асинхронных вычислений. Promise может
+находиться в трёх состояниях:
+
+- ожидание (pending): начальное состояние, не выполнено и не отклонено;
+- выполнено (fulfilled): операция завершена успешно;
+- отклонено (rejected): операция завершена с ошибкой.
+
+
+***
+
+### Как создать промис
+
+```js
+var promise1 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 100, 'foo');
+});
+
+```
+
+Готово!
+
+***
+
+### Как пользоваться
+
+```js
+const promise1 = new Promise(function(resolve, reject) {
+    const resultFunc = Math.random() > 0.5 ? resolve : reject;
+    setTimeout(resultFunc, 100, 'foo');
+});
+```
+
+```js
+promise1
+    .then(
+        resolveResult => console.log('resolve', resolveResult),
+        rejectResult => console.log('reject', rejectResult)
+    );
+```
+
+```js
+promise1
+    .then(resolveResult => console.log('resolve', resolveResult))
+    .catch(err => console.error(err));
+```
+
+***
+
+### Как еще можно
+
+```js
+function doAsync() {
+    return Promise.resolve('123');
+}
+
+function doReject() {
+    return Promise.reject('123');
+}
+
+```
+
+***
+
+### Реальный пример
+
+```js
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time))
+}
+
+console.log(Date.now());
+delay(1000).then(() => console.log(Date.now()))
+```
+
+***
+
+### Chaining
+
+```js
+delay(1000)
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
+```
+
+***
+
+### 3. Async/Await
+
+***
+
+### Синтаксис
+
+```js
+async function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time))
+}
+
+async run() {
+    console.log(Date.now());
+    await delay(1000);
+    console.log(Date.now());
+}
+
+run();
+
+```
+
+***
+
+### Данные
+
+```js
+const promise1 = new Promise(function(resolve, reject) {
+    const resultFunc = Math.random() > 0.5 ? resolve : reject;
+    setTimeout(resultFunc, 100, 'foo');
+});
+
+const result = await promise1.catch(console.error);
+
+```
+
+***
+
+### Ошибки
+
+```js
+const result = await promise1.catch(console.error);
+
+```
+
+```js
+
+try {
+    const result = await promise1;
+} catch (e) {
+    console.error(e)
+}
+```
+
+***
+
+### !Chaining
+
+```js
+await delay(1000)
+console.log(Date.now());
+await delay(1000);
+console.log(Date.now());
+await delay(1000);
+console.log(Date.now());
+await delay(1000);
+```
+
+***
+
+### Задачка
+
+1. Перейди в директорию `tasks/async`
+2. Поставь все зависимости (`npm i`)
+3. Получи у меня ключ для API Контур.Фокус
+4. Ключ запиши в переменную `SECRET_KEY` файла `server.js`
+5. Запусти сервер командой `npm run server`
+6. Открой [localhost:3000](http://localhost:3000/)
+7. Перепиши в файле `static/focus.js` функцию `sendRequest` так, чтобы она возвращала промисы. А в функции `run`
+жди их при помощи async/await
+
+***
+
+### Обсуждение
+
+- Стало ли читаемей?
+</script></section>
+<section data-markdown><script type="text/template">
+
+## Работа с сервером
+
+***
+
+### 1. XHR
+
+***
+
+<b>XHR</b> (XMLHttpRequest) — JavaScript API для AJAX (Asynchronous JavaScript And XML) запросов
+
+***
+
+### Как пользоваться
+
+```js
+const xhr = new XMLHttpRequest(); // Создание
+xhr.open('GET', url, true); // Открытие
+
+xhr.onreadystatechange = function() { // Настройки
+    if(xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+            callback(JSON.parse(xhr.response));
+        }
+    }
+};
+
+xhr.send(); // Отправка
+```
+
+***
+
+### 1.5. Попытки облегчить жизнь
+
+***
+
+### Зоопарк всякого
+
+- jQuery.get(), jQuery.post()...
+- Axios
+- SuperAgent
+- Twix
+- ...
+
+***
+
+### 2. Fetch
+
+***
+
+<b>Fetch</b> — это новый стандарт для AJAX запросов.
+Сейчас приходится подключать для него полифиллы, но в свежих Chrome и Firefox
+работает без полифиллов.
+
+fetch возвращает Promise.
+
+***
+
+### Как создать
+
+Простой GET-запрос:
+```js
+fetch(url).then(response => response.json())
+```
+
+POST-запрос:
+```js
+fetch(url, {
+    body: JSON.stringify({date: new Date(), name: 'Veronika'}),
+    method: 'POST',
+    // любые другие настройки: credentials, headers...
+}).then(response => response.json())
+```
+[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Checking_that_the_fetch_was_successful)
+***
+
+### Недостатки fetch
+
+- reject только, если происходят ошибки сетевые
+- запрос нельзя отменить
+- Нельзя следить за прогрессом, например, загрузки
+
+***
+
+### Задачка
+
+- Перепиши функцию `sendRequest` с использованием fetch вместо XHR
+
+</script></section>
+<section data-markdown><script type="text/template">
+
+
+## Advanced Promises
+
+***
+
+### Promise.race — когда выполнится хоть один промис
+
+```js
+var promise1 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 500, 'one');
+});
+
+var promise2 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 100, 'two');
+});
+
+Promise.race([promise1, promise2]).then(function(value) {
+    console.log(value); // 'two'
+});
+```
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+
+
+***
+
+### Promise.all — когда выполнятся все промисы
+
+```js
+var promise1 = Promise.resolve(3);
+var promise2 = 42;
+var promise3 = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 100, 'foo');
+});
+
+Promise.all([promise1, promise2, promise3]).then(function(values) {
+    console.log(values);
+});
+```
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
+
+***
+
+### Задачка
+
+- Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала Promise.all.
+
+
+</script></section>
+<section data-markdown><script type="text/template">
+
+## Classes
+
+***
+
+### Повторение пройденного
+
+- Что такое класс?
+- Зачем нужны классы?
+- Какие особенности у синтаксиса классов (по сравнению с функциями-конструкторами)?
+- У кого есть опыт с объектно-ориентированными языками?
+
+***
+
+### Как создать
+
+```js
+class Dog extends Mammals {
+    constructor (name, type, ...rest) {
+        super(rest);
+        this.name = name;
+        this.type = type;
+    }
+
+    sayWoof () {
+        super.makeNoise();
+        console.log('Woof!')
+    }
+}
+```
+
+***
+
+### Как использовать
+
+```js
+var jack = new Dog('Jack', 'shepard')
+```
+
+***
+
+### Статические методы
+
+```js
+class Dog extends Mammals {
+    static bark () {
+        console.log('Woof!')
+    }
+}
+```
+
+Использование
+
+```js
+Dog.bark();
+```
+
+В статических методах `this` недоступен (вернее, будет не тем, что мы ожидаем).
+Статический метод нельзя вызвать у экземпляра класса. Так не работает:
+
+```js
+const dog = new Dog();
+dog.bark();
+
+```
+
+***
+
+### Статические поля
+
+Статические поля — данные, которые делятся между всеми экземплярами класса.
+
+```js
+class Dog {
+    eatBone () {
+        Dog.boneAmount--;
+        this.fullness++;
+    }
+}
+
+Dog.boneAmount = 50;
+```
+
+***
+
+### Почему не надо делать так?
+
+```js
+
+new ChessProblem(board);
+ChessProblem.color = 'white';
+
+```
+
+***
+
+### Getters && Setters
+
+```js
+class Dog {
+    constructor(name, weight) {
+        this.name = name;
+        this.weight = weight;
+    }
+
+    get youAreFat() {
+        return `Just ${this.weight - 5}kg!`;
+    }
+
+    set youAreFatter(value) {
+        this.weight++
+    }
+}
+
+const fatDoggo = new Dog('Pedro', 12);
+console.log(fatDoggo.youAreFat);
+fatDoggo.youAreFatter = 10;
+
+```
+
+***
+
+### Задачка
+
+Задачка будет творческая. Пробуем смоделировать Евросоюз при помощи классов.
+Условия в файле `tasks/classes/index.js`
+
+
+</script></section>
+<section data-markdown><script type="text/template">
+
+## Заключение
+
+***
+
+### Сегодня мы разобрали/повторили
+
+- ES2015+
+- асинхронный JS
+- работа с сервером
+- event loop
+- классы
+
+</script></section>
+
+</div></div>
+</body>
+</html>
