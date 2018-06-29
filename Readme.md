@@ -24,4 +24,4 @@
 - rest/spread operator
 - destructuring
 
-[Презентация](https://kontur-courses.github.io/advanced-js/#/)
+### [Презентация](https://kontur-courses.github.io/advanced-js/#/)
