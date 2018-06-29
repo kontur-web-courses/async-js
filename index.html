@@ -573,6 +573,7 @@ fetch(url, {
 }).then(response => response.json())
 ```
 [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Checking_that_the_fetch_was_successful)
+
 ***
 
 ### Недостатки fetch
@@ -628,6 +629,7 @@ Promise.all([promise1, promise2, promise3]).then(function(values) {
     console.log(values);
 });
 ```
+
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
 
 ***
@@ -727,10 +729,8 @@ Dog.boneAmount = 50;
 ### Почему не надо делать так?
 
 ```js
-
 new ChessProblem(board);
 ChessProblem.color = 'white';
-
 ```
 
 ***
@@ -739,10 +739,7 @@ ChessProblem.color = 'white';
 
 ```js
 class Dog {
-    constructor(name, weight) {
-        this.name = name;
-        this.weight = weight;
-    }
+    constructor(name, weight) { /*...*/}
 
     get youAreFat() {
         return `Just ${this.weight - 5}kg!`;
