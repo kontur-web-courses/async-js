@@ -618,131 +618,6 @@ Promise.all([promise1, promise2, promise3]).then(function(values) {
 </script></section>
 <section data-markdown><script type="text/template">
 
-## Classes
-
-***
-
-### Повторение пройденного
-
-- Что такое класс?
-- Зачем нужны классы?
-- Какие особенности у синтаксиса классов (по сравнению с функциями-конструкторами)?
-- У кого есть опыт с объектно-ориентированными языками?
-
-***
-
-### Как создать
-
-```js
-class Dog extends Mammals {
-    constructor (name, type, ...rest) {
-        super(rest);
-        this.name = name;
-        this.type = type;
-    }
-
-    sayWoof () {
-        super.makeNoise();
-        console.log('Woof!')
-    }
-}
-```
-
-***
-
-### Как использовать
-
-```js
-var jack = new Dog('Jack', 'shepard')
-```
-
-***
-
-### Статические методы
-
-```js
-class Dog extends Mammals {
-    static bark () {
-        console.log('Woof!')
-    }
-}
-```
-
-Использование
-
-```js
-Dog.bark();
-```
-
-В статических методах `this` недоступен (вернее, будет не тем, что мы ожидаем).
-Статический метод нельзя вызвать у экземпляра класса. Так не работает:
-
-```js
-const dog = new Dog();
-dog.bark();
-
-```
-
-***
-
-### Статические поля
-
-Статические поля — данные, которые делятся между всеми экземплярами класса.
-
-```js
-class Dog {
-    eatBone () {
-        Dog.boneAmount--;
-        this.fullness++;
-    }
-}
-
-Dog.boneAmount = 50;
-```
-
-***
-
-### Почему не надо делать так?
-
-```js
-new ChessProblem(board);
-ChessProblem.color = 'white';
-```
-
-***
-
-### Getters && Setters
-
-```js
-class Dog {
-    constructor(name, weight) { /*...*/}
-
-    get youAreFat() {
-        return `Just ${this.weight - 5}kg!`;
-    }
-
-    set youGotFat(value) {
-        this.weight++
-    }
-}
-
-const fatDoggo = new Dog('Pedro', 12);
-console.log(fatDoggo.youAreFat); // Just 7kg!
-fatDoggo.youGotFat = 10; // fatDoggo.weight === 13
-
-```
-
-***
-
-### Задачка
-
-Задачка будет творческая. Пробуем смоделировать Евросоюз при помощи классов.
-Условия в файле `tasks/classes/index.js`
-
-
-</script></section>
-<section data-markdown><script type="text/template">
-
 ## Заключение
 
 ***
@@ -750,10 +625,10 @@ fatDoggo.youGotFat = 10; // fatDoggo.weight === 13
 ### Сегодня мы разобрали/повторили
 
 - ES2015+
+- event loop
 - асинхронный JS
 - работа с сервером
-- event loop
-- классы
+
 
 ***
 
