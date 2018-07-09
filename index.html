@@ -601,9 +601,13 @@ var promise3 = new Promise(function(resolve, reject) {
     setTimeout(resolve, 100, 'foo');
 });
 
-Promise.all([promise1, promise2, promise3]).then(function(values) {
-    console.log(values);
-});
+Promise.all([promise1, promise2, promise3])
+.then(values => console.log(values));
+
+```
+
+```js
+const [res1, res2] = await Promise.all([promise1, promise2]);
 ```
 
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
@@ -612,7 +616,17 @@ Promise.all([promise1, promise2, promise3]).then(function(values) {
 
 ### Задачка
 
-- Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала Promise.all.
+Сейчас запросы до сервера отправляются последовательно:
+
+<img src="asserts/consecutive-requests.png" alt="consecutive requests in devTools">
+
+***
+
+### Задачка
+
+Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала Promise.all.
+
+<img src="asserts/parallel-requests.png" alt="parallel requests in devTools">
 
 
 </script></section>
