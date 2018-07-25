@@ -1,7 +1,3 @@
-/*
-* Описание API: https://focus-api.kontur.ru/api3/index.html
-* */
-
 const API = {
     organizationList: '/orgsList',
     analytics: '/api3/analytics',

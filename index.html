@@ -327,11 +327,9 @@ await delay(1000);
 
 1. Перейди в директорию `tasks/async`
 2. Поставь все зависимости (`npm i`)
-3. Получи у меня ключ для API Контур.Фокус
-4. Ключ запиши в переменную `SECRET_KEY` файла `server.js`
-5. Запусти сервер командой `npm run server`
-6. Открой [localhost:3000](http://localhost:3000/)
-7. Перепиши в файле `static/focus.js` функцию `sendRequest` так, чтобы она возвращала промисы. А в функции `run`
+3. Запусти сервер командой `npm run server`
+4. Открой [localhost:3000](http://localhost:3000/)
+5. Перепиши в файле `static/focus.js` функцию `sendRequest` так, чтобы она возвращала промисы. А в функции `run`
 жди их при помощи async/await
 
 ***
@@ -392,8 +390,7 @@ xhr.send(); // Отправка
 ***
 
 <b>Fetch</b> — это новый стандарт для AJAX запросов.
-Сейчас приходится подключать для него полифиллы, но в свежих Chrome и Firefox
-работает без полифиллов.
+Сейчас приходится подключать для него полифиллы, но в свежих Chrome и Firefox работает без полифиллов.
 
 fetch возвращает Promise.
 
@@ -421,7 +418,7 @@ fetch(url, {
 ### Недостатки fetch
 
 - reject только, если происходят ошибки сетевые
-- запрос нельзя отменить
+- Запрос нельзя отменить
 - Нельзя следить за прогрессом, например, загрузки
 
 ***
@@ -430,6 +427,12 @@ fetch(url, {
 
 - Перепиши функцию `sendRequest` с использованием fetch вместо XHR
 
+
+***
+
+### Обсуждение
+
+- Стало ли читаемей?
 </script></section>
 <section data-markdown><script type="text/template">
 
@@ -442,15 +445,15 @@ fetch(url, {
 
 ```js
 var promise1 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 500, 'one');
+setTimeout(resolve, 500, 'one');
 });
 
 var promise2 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 100, 'two');
+setTimeout(resolve, 100, 'two');
 });
 
 Promise.race([promise1, promise2]).then(function(value) {
-    console.log(value); // 'two'
+console.log(value); // 'two'
 });
 ```
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
@@ -504,7 +507,6 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 
 ### Сегодня мы разобрали/повторили
 
-- ES2015+
 - event loop
 - асинхронный JS
 - работа с сервером
