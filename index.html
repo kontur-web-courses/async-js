@@ -323,6 +323,25 @@ await delay(1000);
 
 ***
 
+### В задаче не понадобится знать XHR
+
+```js
+const xhr = new XMLHttpRequest(); // Создание
+xhr.open('GET', url, true); // Открытие
+
+xhr.onreadystatechange = function() { // Настройки
+    if(xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+            callback(JSON.parse(xhr.response));
+        }
+    }
+};
+
+xhr.send(); // Отправка
+```
+
+***
+
 ### Задачка
 
 1. Перейди в директорию `tasks/async`
