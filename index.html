@@ -460,6 +460,21 @@ fetch(url, {
 ### Обсуждение
 
 - Стало ли читаемей?
+
+***
+
+### Копирование fetch
+
+![fetch copy](asserts/copy_fetch.png)
+
+
+***
+
+### Хорошие практики
+
+- Оптимистичный рендер
+- debounce и throttling
+
 </script></section>
 <section data-markdown><script type="text/template">
 
@@ -523,6 +538,12 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала Promise.all.
 
 <img src="asserts/parallel-requests.png" alt="parallel requests in devTools">
+
+***
+
+### Микротаски
+
+![microtasks queue](asserts/event-loop2.png)
 
 
 </script></section>
