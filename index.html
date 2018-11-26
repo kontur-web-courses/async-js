@@ -273,7 +273,7 @@ async function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time))
 }
 
-async run() {
+async function run() {
     console.log(Date.now());
     await delay(1000);
     console.log(Date.now());
@@ -356,7 +356,7 @@ xhr.send(); // Отправка
 2. Поставь все зависимости (`npm i`)
 3. Запусти сервер командой `npm run server`
 4. Открой [localhost:3000](http://localhost:3000/)
-5. Перепиши в файле `static/focus.js` функцию `sendRequest` так, чтобы она возвращала промисы. А в функции `run`
+5. Перепиши в файле `static/focus.js` функцию `sendRequest` так, чтобы она возвращала промис. А в функции `run`
 жди их при помощи async/await
 
 ***
@@ -474,6 +474,16 @@ fetch(url, {
 
 - Оптимистичный рендер
 - debounce и throttling
+
+***
+
+### Ошибки
+
+1. Измени адрес одного из запросов. Например, вместо `analytics` пусть запрос идет на `analitics`
+2. Посмотри, что приходит с сервера в этом случае. Посмотри, что содержится в объекте ответа (response)
+3. Научись обрабатывать такие ситуации:
+    - если статус ответа ≥ 300 (поле `ok` в ответе не равно `true`), то выводи алерт с кодом и статусом запроса
+    - после такой ошибки не должно случиться ничего страшного: код не должен падать и не должен делать новых запросов
 
 </script></section>
 <section data-markdown><script type="text/template">
