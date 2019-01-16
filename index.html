@@ -468,22 +468,83 @@ fetch(url, {
 ![fetch copy](asserts/copy_fetch.png)
 
 
-***
+</script></section>
+<section data-markdown><script type="text/template">
 
-### Хорошие практики
-
-- Оптимистичный рендер
-- debounce и throttling
+## Хорошие практики
 
 ***
 
-### Ошибки
+### Оптимистичный рендеринг
+
+<div class="fragment" data-fragment-index="1">
+Когда стоит использовать:
+1. Запрос обычно заканчивается удачно
+2. Если мы обманем пользователя, ничего страшного не произойдет
+</div>
+
+<div class="fragment" data-fragment-index="2">
+Когда не стоит использовать:
+1. Запрос часто падает с ошибкой
+2. Результат запроса важен
+</div>
+
+***
+
+### Обработка ошибок
 
 1. Измени адрес одного из запросов. Например, вместо `analytics` пусть запрос идет на `analitics`
 2. Посмотри, что приходит с сервера в этом случае. Посмотри, что содержится в объекте ответа (response)
 3. Научись обрабатывать такие ситуации:
     - если статус ответа ≥ 300 (поле `ok` в ответе не равно `true`), то выводи алерт с кодом и статусом запроса
     - после такой ошибки не должно случиться ничего страшного: код не должен падать и не должен делать новых запросов
+
+***
+
+### debounce и throttling
+
+***
+
+### Throttling
+
+<img src="asserts/throttling.png" alt="throttling" style="position: absolute; right: -50px; top: 140px; z-index: 2;
+border: 1px solid">
+
+```js
+function throttle(delay, fn) {
+    let lastCall = 0;
+    return function (...args) {
+        const now = (new Date).getTime();
+        if (now - lastCall < delay) {
+            return;
+        }
+        lastCall = now;
+        return fn(...args);
+    }
+}
+```
+
+***
+
+### Debounce
+
+<img src="asserts/debounce.png" alt="debounce" style="position: absolute; right: -50px; top: 140px; z-index: 2;
+border: 1px solid">
+
+```js
+function debounce(delay, fn) {
+    let timerId;
+    return function (...args) {
+        if (timerId) {
+            clearTimeout(timerId);
+        }
+        timerId = setTimeout(() => {
+            fn(...args);
+            timerId = null;
+        }, delay);
+    }
+}
+```
 
 </script></section>
 <section data-markdown><script type="text/template">
