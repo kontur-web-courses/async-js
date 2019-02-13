@@ -26,7 +26,7 @@
 # Advanced JavaScript
 
 <p style="text-align: center">
-    <a target="_blank" href="https://github.com/kontur-courses/advanced-js">https://github.com/kontur-courses/<b>advanced-js</b></a>
+    <a href="https://github.com/kontur-courses/advanced-js" target="_blank">https://github.com/kontur-courses/<b>advanced-js</b></a>
 </p>
 </script></section>
 
@@ -113,7 +113,7 @@ console.log("5 clicks!");
 
 ***
 
-### Перепиши код, чтобы он заработал
+### Как заставить код работать как ожидается?
 
 
 ```
@@ -131,16 +131,49 @@ console.log("5 clicks!");
 
 ```
 
+***
+
+### setTimeout и setInterval
+
+Синтаксис:
+
+```js
+setTimeout(() => {
+    // Делать что-то через 1000 мс
+}, 1000)
+
+setInterval(() => {
+    // Делать что-то каждые 1000 мс
+}, 1000)
+```
 
 ***
 
-Если хочешь разобраться глубже, посмотри это видео:
+### Заставим этот код работать как ожидалось
+
+```
+var clickCount = 0;
+document.addEventListener("click", function() {
+clickCount++;
+console.log("clicked", clickCount);
+});
+
+while (clickCount !== 5) {
+console.log("wait");
+}
+
+console.log("5 clicks!");
+
+```
+
+***
+
+Если хочешь разобраться в теме event loop глубже, посмотри это видео:
 [Philip Roberts: What the heck is the event loop anyway?](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
 ([русский перевод](https://www.youtube.com/watch?v=8cV4ZvHXQL4))
 
 
 </script></section>
-
 <section data-markdown><script type="text/template">
 
 ## Asynchronous JS
@@ -242,8 +275,8 @@ delay(1000)
     .then(() => {console.log(Date.now()); return delay(1000)})
     .then(() => {console.log(Date.now()); return delay(1000)})
     .then(() => {console.log(Date.now()); return delay(1000)})
-    .then(() => {console.log(Date.now()); return delay(1000)})
-    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {throw new Error('Error!'))
+    .catch(err => console.error(err));
 ```
 
 ***
@@ -270,7 +303,7 @@ function doReject() {
 ### Синтаксис
 
 ```js
-async function delay(time) {
+function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time))
 }
 
@@ -330,9 +363,57 @@ console.log(Date.now());
 await delay(1000);
 ```
 
+</script></section>
+<section data-markdown><script type="text/template">
+
+## DevTools
+
 ***
 
-### В задаче не понадобится знать XHR
+### Открыть инструменты разработчика
+
+1. Будем смотреть запросы на [github.com](https://github.com/)
+2. Открой инструменты разработчика, нажми `F12` или <nobr>`Shift+ Ctrl + I`</nobr>
+3. Переходи на вкладку _Сеть_ или _Network_
+
+![devTools network](assets/devTools.png)
+
+***
+
+### Что можно посмотреть
+
+- Заголовки
+- Статус и код
+- Тело ответа
+- Тело запроса
+- Куки
+- Время запроса
+
+***
+
+### Что можно поделать
+
+1. Фильтрация по типу данных
+2. Отключение кеширования
+3. Сохранять информацию обо всех запросах при переходе на другие страницы
+4. Имитировать медленный интернет или его отсутствие
+5. Скопировать запрос
+
+***
+
+Подробнее о возможностях этой вкладки читай в статье [в блоге Google
+Developers](https://developers.google.com/web/tools/chrome-devtools/network-performance/reference#analyze).
+Чтобы проверить себя, можешь пройти
+[тест](https://ulearn.me/Course/frontend/Praktika_HTTP_bacff11b-7f7d-4d9f-ad48-59da5ebe7301)
+
+</script></section>
+<section data-markdown><script type="text/template">
+
+## Практика
+
+***
+
+### В следующей задаче не понадобится знать об XHR
 
 ```js
 const xhr = new XMLHttpRequest(); // Создание
@@ -453,7 +534,7 @@ fetch(url, {
 
 ### Задачка
 
-- Перепиши функцию `sendRequest` с использованием fetch вместо XHR
+- Перепиши в предыдущей задаче функцию `sendRequest` с использованием fetch вместо XHR
 
 
 ***
@@ -550,7 +631,6 @@ function debounce(delay, fn) {
 </script></section>
 <section data-markdown><script type="text/template">
 
-
 ## Advanced Promises
 
 ***
@@ -611,16 +691,12 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 
 <img src="assets/parallel-requests.png" alt="parallel requests in devTools">
 
-***
 
-### Микротаски
+</script></section>
+<section data-markdown><script type="text/template">
 
-![microtasks queue](assets/event-loop2.png)
+## Запросы на сервер из React
 
-
-***
-
-## [Интерактивная статья о микротасках](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
 
 </script></section>
@@ -630,11 +706,12 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 
 ***
 
-### Сегодня мы разобрали/повторили
+### Сегодня мы разобрали
 
 - event loop
 - асинхронный JS
 - работа с сервером
+- работа с сервером из React
 
 
 ***
