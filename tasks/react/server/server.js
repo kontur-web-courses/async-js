@@ -25,7 +25,7 @@ app.get('/clickCount', (request, response) => {
 
 
 
-app.get('/addClick', (request, response) => {
+app.post('/addClick', (request, response) => {
     response.set({
         "Access-Control-Allow-Origin": '*',
     });

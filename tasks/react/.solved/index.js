@@ -11,7 +11,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:3000/getInfo')
+        fetch('http://localhost:3000/clickCount')
             .then(res => res.json())
             .then(res => this.setState({
                 clickCount: res.clickCount,
@@ -25,7 +25,9 @@ export default class App extends React.Component {
             clickCount: clickCount + 1,
         });
 
-        fetch('http://localhost:3000/addClick').then(res => {
+        fetch('http://localhost:3000/addClick', {
+            method: 'POST',
+        }).then(res => {
             if (!res.ok) {
                 this.setState({
                     clickCount,
