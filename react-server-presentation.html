@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/kontur-light.css" id="theme">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="reveal/css/highlight/idea-for-light.css">
+    <link rel="stylesheet" href="reveal/css/highlight/darkula-for-dark.css">
+    <!--[if lt IE 9]>
+    <script src="reveal/js/html5shiv.js"></script>
+    <![endif]-->
+    <script defer src="reveal/js/head.min.js"></script>
+    <script defer src="reveal/js/reveal.js"></script>
+    <script defer src="reveal/initialize.js"></script>
+    <script defer src="reveal/js/d3.min.js"></script>
+
+    <title>Advanced JS</title>
+</head>
+<body>
+
+<div class="reveal"><div class="slides">
+
+<section data-markdown><script type="text/template">
+# Работа с сервером из React
+
+<p style="text-align: center">
+    <a target="_blank" href="https://github.com/kontur-courses/advanced-js">https://github.com/kontur-courses/<b>advanced-js</b></a>
+</p>
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Хорошие практики
+
+***
+
+### Оптимистичный рендеринг
+
+<div class="fragment" data-fragment-index="1">
+Когда стоит использовать:
+1. Запрос обычно заканчивается удачно
+2. Если мы обманем пользователя, ничего страшного не произойдет
+</div>
+
+<div class="fragment" data-fragment-index="2">
+Когда не стоит использовать:
+1. Запрос часто падает с ошибкой
+2. Результат запроса важен
+</div>
+
+***
+
+### Обработка ошибок
+
+- Что делать, если сервер отвечает не 200 кодом, а 4xx или 5xx?
+
+</script></section><section data-markdown><script type="text/template">
+
+## Запросы на сервер из React
+
+***
+
+### Где делать запросы?
+
+- Если компоненту нужны данные для того, чтобы отрисоваться?
+- Если компоненту надо после пользовательского события отправить запрос на сервер?
+
+***
+
+### Где делать запросы
+
+- Если компоненту нужны данные для того, чтобы отрисоваться? — *В методе жизненного цикла componentDidMount*
+- Если компоненту надо после пользовательского события отправить запрос на сервер? — *В обработчике события*
+
+
+***
+
+### Практика
+
+1. Перейди в директорию `tasks/react`
+2. Выполни команду `npm i`
+3. После установки зависимостей выполни команду `npm start`
+4. Открой отдельное окно терминала и выполни команду `npm run server` (из этой же директории)
+5. В файле `src/App/index.js` написаны условия задачи, выполни их!
+
+</script></section>
+
+</div></div>
+</body>
+</html>
