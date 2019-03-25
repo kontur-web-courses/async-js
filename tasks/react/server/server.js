@@ -1,13 +1,13 @@
 const express = require('express');
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
 
-let clickCount = 0;
+let clickCount = 2;
 
 app.use(express.static('static'));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.listen(port, (err) => {
     if (err) {
@@ -31,7 +31,7 @@ app.post('/addClick', (request, response) => {
     });
 
     if (Math.random() > 0.3) {
-        clickCount += 2;
+        clickCount += Math.round(Math.random() + 1);
         response.json({ clickCount });
     } else {
         setTimeout(() => {

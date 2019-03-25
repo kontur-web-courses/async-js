@@ -5,6 +5,8 @@ import Button from '@skbkontur/react-ui/Button';
 /**
  * 1. Сделай так, чтобы количество кликов приходило с сервера, получай данные по урлу
  * http://localhost:3000/clickCount
+ * Для запросов на наш локальный сервер не нужны никакие специальные заголовки, достаточно тех, которые формируются
+ * автоматически.
  *
  * 2. Сделай так, чтобы параграф, показывающий количество кликов,
  * не показывался, пока данные с сервера не пришли.
@@ -52,5 +54,11 @@ export default class App extends React.Component {
 
 /**
  * 1. Получение данных делай в методе componentDidMount
+ *
  * 2. Сделай начальное значение clickCount = null и в методе render проверяй, стало ли оно !== null
+ *
+ * API fetch:
+ * GET: fetch(url).then(response => response.json())
+ * POST: fetch(url, {method: 'POST'}).then(response => response.json())
+ *
  */
