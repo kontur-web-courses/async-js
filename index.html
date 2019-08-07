@@ -16,17 +16,17 @@
     <script defer src="reveal/initialize.js"></script>
     <script defer src="reveal/js/d3.min.js"></script>
 
-    <title>Advanced JS</title>
+    <title>AsyncJS</title>
 </head>
 <body>
 
 <div class="reveal"><div class="slides">
 
 <section data-markdown><script type="text/template">
-# Advanced JavaScript
+# AsyncJS
 
 <p style="text-align: center">
-    <a target="_blank" href="https://github.com/kontur-courses/advanced-js">https://github.com/kontur-courses/<b>advanced-js</b></a>
+    <a target="_blank" href="https://github.com/kontur-courses/async-js">https://github .com/kontur-courses/<b>async-js</b></a>
 </p>
 </script></section>
 
@@ -208,6 +208,16 @@ const promise1 = new Promise(function(resolve, reject) {
 
 ```js
 promise1
+    .then(resolveResult => console.log('resolve', resolveResult))
+    .catch(err => console.error(err));
+```
+
+***
+
+### Как обрабатывать ошибки
+
+```js
+promise1
     .then(
         resolveResult => console.log('resolve', resolveResult),
         rejectResult => console.log('reject', rejectResult)
@@ -218,6 +228,20 @@ promise1
 promise1
     .then(resolveResult => console.log('resolve', resolveResult))
     .catch(err => console.error(err));
+```
+
+
+***
+
+### Chaining
+
+```js
+delay(1000)
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
+    .then(() => {console.log(Date.now()); return delay(1000)})
 ```
 
 ***
@@ -231,19 +255,6 @@ function delay(time) {
 
 console.log(Date.now());
 delay(1000).then(() => console.log(Date.now()))
-```
-
-***
-
-### Chaining
-
-```js
-delay(1000)
-    .then(() => {console.log(Date.now()); return delay(1000)})
-    .then(() => {console.log(Date.now()); return delay(1000)})
-    .then(() => {console.log(Date.now()); return delay(1000)})
-    .then(() => {console.log(Date.now()); return delay(1000)})
-    .then(() => {console.log(Date.now()); return delay(1000)})
 ```
 
 ***
@@ -492,17 +503,29 @@ fetch(url, {
 
 ***
 
-### Обработка ошибок
-
-1. Измени адрес одного из запросов. Например, вместо `analytics` пусть запрос идет на `analitics`
-2. Посмотри, что приходит с сервера в этом случае. Посмотри, что содержится в объекте ответа (response)
-3. Научись обрабатывать такие ситуации:
-    - если статус ответа ≥ 300 (поле `ok` в ответе не равно `true`), то выводи алерт с кодом и статусом запроса
-    - после такой ошибки не должно случиться ничего страшного: код не должен падать и не должен делать новых запросов
+### debounce и throttling
 
 ***
 
-### debounce и throttling
+### Debounce
+
+<img src="assets/debounce.png" alt="debounce" style="position: absolute; right: -50px; top: 140px; z-index: 2;
+border: 1px solid">
+
+```js
+function debounce(delay, fn) {
+    let timerId;
+    return function (...args) {
+        if (timerId) {
+            clearTimeout(timerId);
+        }
+        timerId = setTimeout(() => {
+            fn(...args);
+            timerId = null;
+        }, delay);
+    }
+}
+```
 
 ***
 
@@ -527,25 +550,56 @@ function throttle(delay, fn) {
 
 ***
 
-### Debounce
+### Обработка ошибок
 
-<img src="assets/debounce.png" alt="debounce" style="position: absolute; right: -50px; top: 140px; z-index: 2;
-border: 1px solid">
 
-```js
-function debounce(delay, fn) {
-    let timerId;
-    return function (...args) {
-        if (timerId) {
-            clearTimeout(timerId);
-        }
-        timerId = setTimeout(() => {
-            fn(...args);
-            timerId = null;
-        }, delay);
-    }
-}
-```
+- Что делать, если сервер отвечает не 200 кодом, а 4xx или 5xx?
+
+***
+
+### Обработка ошибок
+
+1. Измени адрес одного из запросов. Например, вместо `analytics` пусть запрос идет на `analitics`
+2. Посмотри, что приходит с сервера в этом случае. Посмотри, что содержится в объекте ответа (response)
+3. Научись обрабатывать такие ситуации:
+    - если статус ответа ≥ 300 (поле `ok` в ответе не равно `true`), то выводи алерт с кодом и статусом запроса
+    - после такой ошибки не должно случиться ничего страшного: код не должен падать и не должен делать новых запросов
+
+
+</script></section>
+<section data-markdown><script type="text/template">
+
+## Работа с сервером из React
+
+***
+
+
+### Где делать запросы?
+
+- Если компоненту нужны данные для того, чтобы отрисоваться?
+- Если компоненту надо после пользовательского события отправить запрос на сервер?
+
+
+***
+
+
+### Где делать запросы
+
+- Если компоненту нужны данные для того, чтобы отрисоваться? — *В методе жизненного цикла componentDidMount*
+- Если компоненту надо после пользовательского события отправить запрос на сервер? — *В обработчике события*
+
+
+***
+
+
+### Практика
+
+1. Перейди в директорию `tasks/react`
+2. Выполни команду `npm i`
+3. После установки зависимостей выполни команду `npm start`
+4. Открой отдельное окно терминала и выполни команду `npm run server` (из этой же директории)
+5. В файле `src/App/index.js` написаны условия задачи, выполни их!
+
 
 </script></section>
 <section data-markdown><script type="text/template">
