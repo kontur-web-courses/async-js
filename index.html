@@ -680,6 +680,106 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 </script></section>
 <section data-markdown><script type="text/template">
 
+## CORS
+
+***
+
+### Безопасность запросов в браузере
+
+<ul>
+    <li class="fragment">Как думаете, можно ли из вкладки браузера узнать, что лежит у пользователя на компьютере?
+    <li class="fragment">Что может случиться, если на вашей странице будет выполнен чужой вредоносный код?
+    <li class="fragment">Как браузеры могут защищать своих пользователей?
+</ul>
+
+
+***
+
+### Same-origin policy
+
+<ul>
+    <li class="fragment">Что такое Same-origin policy?
+    <li class="fragment">Зачем оно может быть надо?
+</ul>
+
+
+***
+
+### Браузер делает так
+
+```js
+const roles = await fetch("https://api.ulearn.me/account/roles");
+```
+
+<img src="assets/cors.png" alt="cors" />
+
+Как обойти такое?
+
+***
+
+### Вы не получите данные запроса
+
+если у сервера не указан заголовок "Access-Control-Allow-Origin"
+__Как победить?__
+
+<ul>
+    <li class="fragment">Если у вас есть доступ к коду сервера?
+    <li class="fragment">Если вы хотите ходить на сервер с localhost?
+    <li class="fragment">Если доступа к коду сервера нет?
+</ul>
+
+
+***
+
+### Настройка mode у fetch
+
+<img src="assets/cors.png" alt="cors" />
+
+
+```js
+const roles = await fetch("https://api.ulearn.me/account/roles",
+    { mode: 'no-cors' });
+```
+
+<ul>
+    <li class="fragment">Только для HEAD, GET, POST
+    <li class="fragment">Нельзя настраивать заголовки
+    <li class="fragment">Из запроса не получить никакой информации, даже его статуса
+</ul>
+
+***
+
+### Выставление заголовков "Access-Control-Allow-Origin" на сервере
+
+```
+Access-Control-Allow-Origin: https://staff.skbkontur.ru/
+
+Access-Control-Allow-Origin: *
+```
+
+
+<ul>
+    <li class="fragment">Можно указать только один, но он может высчитываться динамически
+    <li class="fragment">Если указать `*`, то доступ получит кто-угодно.
+    <li class="fragment">Разумно ли разрешать для origin `http://localhost:8000`?
+</ul>
+
+
+***
+
+### Прокси
+
+Во время разработки:
+- В [webpack-dev-server](https://webpack.js.org/configuration/dev-server/#devserverproxy)
+- Поднять свой сервер
+
+В продакшене, если надо ходить на сторонние сайты:
+- Написать свой прокси-сервер
+- Делать запросы с существующего сервера
+
+</script></section>
+<section data-markdown><script type="text/template">
+
 ## Заключение
 
 ***
@@ -689,7 +789,8 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 - event loop
 - асинхронный JS
 - работа с сервером
-
+- запросы на сервер из React
+- CORS
 
 ***
 
