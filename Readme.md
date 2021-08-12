@@ -4,7 +4,7 @@
 Блок AsyncJS посвящен асинхронности в JavaScript в самом широком смысле. На нем ты узнаешь, как  работает EventLoop, как пользоваться Promise, как делать запрос на сервер и какие приняты хорошие практики в работе с асинхронными событиями.
 
 ## Необходимые знания
-- Рекомендуется пройти блок [React](https://github.com/kontur-courses/react)
+- Рекомендуется пройти блок [React](https://github.com/kontur-web-courses/react)
 - Знание JS
 
 
@@ -17,5 +17,5 @@
 
 
 
-#### [Презентация](https://kontur-courses.github.io/async-js/index.html#/)
-#### [Презентация «Запрос на сервер из React»](https://kontur-courses.github.io/async-js/react-server-presentation.html#/)
+#### [Презентация](https://kontur-web-courses.github.io/async-js/index.html#/)
+#### [Презентация «Запрос на сервер из React»](https://kontur-web-courses.github.io/async-js/react-server-presentation.html#/)

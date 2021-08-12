@@ -2,7 +2,7 @@
   "name": "async",
   "version": "1.0.0",
   "description": "async JS task server",
-  "repository": "https://github.com/kontur-courses/advanced-js",
+  "repository": "https://github.com/kontur-web-courses/async-js",
   "main": "index.js",
   "scripts": {
     "server": "node server.js"
