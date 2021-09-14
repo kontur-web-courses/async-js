@@ -1,36 +1,44 @@
-var path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const path = require('path');
 
-
-module.exports = {
-  entry: path.resolve('src','index.js'),
+const config = {
+  entry: [
+    './src/index.js'
+  ],
   output: {
-    path: path.resolve('build'),
-    publicPath: 'build',
-    filename: 'index.js',
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js'
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: ['babel-loader', 'eslint-loader']
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
-      },
-      {
-          test: /\.less$/,
-          use: ['style-loader', 'css-loader', 'less-loader'],
-      },
-      {
-          test: /\.(png|woff|woff2|eot)$/,
-          use: ['file-loader']
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       }
     ]
   },
   resolve: {
-    modules: ['node_modules'],
-    extensions: ['.js', '.jsx'],
-  }
+    extensions: [
+      '.js',
+      '.jsx'
+    ]
+  },
+  plugins: [
+      new HtmlWebpackPlugin({
+          template: './index.html'
+      }),
+      new ESLintPlugin()
+  ],
+  devtool: 'cheap-source-map'
 };
+
+module.exports = config;

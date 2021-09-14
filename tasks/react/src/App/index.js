@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import Button from '@skbkontur/react-ui/Button';
+import { Button } from '@skbkontur/react-ui';
 
 /**
  * 1. Сделай так, чтобы количество кликов приходило с сервера, получай данные по урлу

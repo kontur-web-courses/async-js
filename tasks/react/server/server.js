@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
@@ -7,7 +6,7 @@ const port = 3000;
 let clickCount = 2;
 
 app.use(express.static('static'));
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.listen(port, (err) => {
     if (err) {

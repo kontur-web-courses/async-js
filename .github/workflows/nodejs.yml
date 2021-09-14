@@ -1,0 +1,38 @@
+name: Test build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [12.x, 14.x, 16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Build and start tasks
+      shell: bash
+      run: |
+        set -e
+        cd tasks/async
+        npm install
+        npm start &
+        sleep 5
+        curl -f http://localhost:3000/orgsList
+        if command -v killall; then killall node; else taskkill //F //IM node.exe; fi
+        cd ../react
+        npm install
+        npm run server &
+        sleep 7
+        curl -f http://localhost:3000/clickCount
+        if command -v killall; then killall node; else taskkill //F //IM node.exe; fi
+        npm run build
+        
