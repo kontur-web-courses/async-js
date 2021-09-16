@@ -4,6 +4,11 @@
     "plugin:react/recommended"
   ],
   "parser": "babel-eslint",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     "no-console": "off",
     "no-useless-escape": "off",
