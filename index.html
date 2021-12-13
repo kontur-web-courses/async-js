@@ -651,6 +651,29 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 
 ***
 
+
+### Promise.allSettled — когда все промисы выполнятся или отклонятся
+
+```js
+var promise1 = Promise.reject(3);
+var promise2 = 42;
+
+Promise.allSettled([promise1, promise2])
+.then(values => console.log(values));
+
+```
+
+```js
+// так будет Uncaught ошибка:
+const [res1, res2] = await Promise.all([promise1, promise2])
+// а так переменные проинициализируются:
+const [res1, res2] = await Promise.allSettled([promise1, promise2]);
+```
+
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
+
+***
+
 ### Задачка
 
 Сейчас запросы до сервера отправляются последовательно:
