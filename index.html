@@ -569,6 +569,102 @@ function throttle(delay, fn) {
 
 
 </script></section>
+
+<section data-markdown><script type="text/template">
+
+## Advanced Promises
+
+***
+
+### Promise.race — когда выполнится хоть один промис
+
+```js
+let promise1 = new Promise((resolve, reject) => setTimeout(resolve, 500, 'one'));
+
+let promise2 = new Promise((resolve, reject) => setTimeout(resolve, 100, 'two'));
+
+Promise.race([promise1, promise2])
+       .then(value => console.log(value)); // 'two'
+
+```
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+
+
+***
+
+### Promise.all — когда выполнятся все промисы
+
+```js
+let promise1 = Promise.resolve(3);
+let promise2 = 42;
+let promise3 = new Promise((resolve, reject) => setTimeout(resolve, 100, 'foo'));
+
+Promise.all([promise1, promise2, promise3])
+       .then(values => console.log(values)); // [3, 42, 'foo']
+```
+
+```js
+const [res1, res2] = await Promise.all([promise1, promise2]);
+```
+
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
+
+***
+
+### Promise.allSettled — когда все промисы выполнятся или отклонятся
+
+```js
+let promise1 = Promise.reject(3);
+let promise2 = 42;
+
+Promise.allSettled([promise1, promise2])
+       .then(values => console.log(values));
+/* [
+    {"status": "rejected", "reason": 3},
+    {"status": "fulfilled", "value": 42}
+   ]
+*/
+
+```
+
+```js
+// так будет Uncaught ошибка:
+const [res1, res2] = await Promise.all([promise1, promise2])
+// а так переменные проинициализируются:
+const [res1, res2] = await Promise.allSettled([promise1, promise2]);
+```
+
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
+
+***
+
+### Задачка
+
+Сейчас запросы до сервера отправляются последовательно:
+
+<img src="assets/consecutive-requests.png" alt="consecutive requests in devTools">
+
+***
+
+### Задачка
+
+Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала `Promise.all`.
+
+<img src="assets/parallel-requests.png" alt="parallel requests in devTools">
+
+***
+
+### Микротаски
+
+![microtasks queue](assets/event-loop2.png)
+
+
+***
+
+## [Интерактивная статья о микротасках](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+
+</script></section>
+
 <section data-markdown><script type="text/template">
 
 ## Работа с сервером из React
@@ -601,105 +697,6 @@ function throttle(delay, fn) {
 3. После установки зависимостей выполни команду `npm start`
 4. Открой отдельное окно терминала и выполни команду `npm run server` (из этой же директории)
 5. В файле `src/App/index.js` написаны условия задачи, выполни их!
-
-
-</script></section>
-<section data-markdown><script type="text/template">
-
-
-## Advanced Promises
-
-***
-
-### Promise.race — когда выполнится хоть один промис
-
-```js
-var promise1 = new Promise(function(resolve, reject) {
-setTimeout(resolve, 500, 'one');
-});
-
-var promise2 = new Promise(function(resolve, reject) {
-setTimeout(resolve, 100, 'two');
-});
-
-Promise.race([promise1, promise2]).then(function(value) {
-console.log(value); // 'two'
-});
-```
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
-
-
-***
-
-### Promise.all — когда выполнятся все промисы
-
-```js
-var promise1 = Promise.resolve(3);
-var promise2 = 42;
-var promise3 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 100, 'foo');
-});
-
-Promise.all([promise1, promise2, promise3])
-.then(values => console.log(values));
-
-```
-
-```js
-const [res1, res2] = await Promise.all([promise1, promise2]);
-```
-
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
-
-***
-
-
-### Promise.allSettled — когда все промисы выполнятся или отклонятся
-
-```js
-var promise1 = Promise.reject(3);
-var promise2 = 42;
-
-Promise.allSettled([promise1, promise2])
-.then(values => console.log(values));
-
-```
-
-```js
-// так будет Uncaught ошибка:
-const [res1, res2] = await Promise.all([promise1, promise2])
-// а так переменные проинициализируются:
-const [res1, res2] = await Promise.allSettled([promise1, promise2]);
-```
-
-[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
-
-***
-
-### Задачка
-
-Сейчас запросы до сервера отправляются последовательно:
-
-<img src="assets/consecutive-requests.png" alt="consecutive requests in devTools">
-
-***
-
-### Задачка
-
-Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала Promise.all.
-
-<img src="assets/parallel-requests.png" alt="parallel requests in devTools">
-
-***
-
-### Микротаски
-
-![microtasks queue](assets/event-loop2.png)
-
-
-***
-
-## [Интерактивная статья о микротасках](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
 
 </script></section>
