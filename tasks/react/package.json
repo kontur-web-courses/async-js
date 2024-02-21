@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "server": "node server/server.js",
-    "start": "webpack serve --mode development",
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && webpack serve --mode development",
     "build": "webpack --mode development"
   },
   "dependencies": {

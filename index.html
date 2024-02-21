@@ -457,8 +457,10 @@ fetch(url, {
 ### Недостатки fetch
 
 - reject только, если происходят ошибки сетевые
-- Запрос нельзя отменить
-- Нельзя следить за прогрессом, например, загрузки
+- нельзя следить за прогрессом загрузки*
+
+
+\*можно <a href="https://learn.javascript.ru/fetch-progress" target="_blank">за получением данных</a>
 
 ***
 
@@ -567,43 +569,8 @@ function throttle(delay, fn) {
 
 
 </script></section>
+
 <section data-markdown><script type="text/template">
-
-## Работа с сервером из React
-
-***
-
-
-### Где делать запросы?
-
-- Если компоненту нужны данные для того, чтобы отрисоваться?
-- Если компоненту надо после пользовательского события отправить запрос на сервер?
-
-
-***
-
-
-### Где делать запросы
-
-- Если компоненту нужны данные для того, чтобы отрисоваться? — *В методе жизненного цикла componentDidMount*
-- Если компоненту надо после пользовательского события отправить запрос на сервер? — *В обработчике события*
-
-
-***
-
-
-### Практика
-
-1. Перейди в директорию `tasks/react`
-2. Выполни команду `npm i`
-3. После установки зависимостей выполни команду `npm start`
-4. Открой отдельное окно терминала и выполни команду `npm run server` (из этой же директории)
-5. В файле `src/App/index.js` написаны условия задачи, выполни их!
-
-
-</script></section>
-<section data-markdown><script type="text/template">
-
 
 ## Advanced Promises
 
@@ -612,17 +579,13 @@ function throttle(delay, fn) {
 ### Promise.race — когда выполнится хоть один промис
 
 ```js
-var promise1 = new Promise(function(resolve, reject) {
-setTimeout(resolve, 500, 'one');
-});
+let promise1 = new Promise((resolve, reject) => setTimeout(resolve, 500, 'one'));
 
-var promise2 = new Promise(function(resolve, reject) {
-setTimeout(resolve, 100, 'two');
-});
+let promise2 = new Promise((resolve, reject) => setTimeout(resolve, 100, 'two'));
 
-Promise.race([promise1, promise2]).then(function(value) {
-console.log(value); // 'two'
-});
+Promise.race([promise1, promise2])
+       .then(value => console.log(value)); // 'two'
+
 ```
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
 
@@ -632,15 +595,12 @@ console.log(value); // 'two'
 ### Promise.all — когда выполнятся все промисы
 
 ```js
-var promise1 = Promise.resolve(3);
-var promise2 = 42;
-var promise3 = new Promise(function(resolve, reject) {
-    setTimeout(resolve, 100, 'foo');
-});
+let promise1 = Promise.resolve(3);
+let promise2 = 42;
+let promise3 = new Promise((resolve, reject) => setTimeout(resolve, 100, 'foo'));
 
 Promise.all([promise1, promise2, promise3])
-.then(values => console.log(values));
-
+       .then(values => console.log(values)); // [3, 42, 'foo']
 ```
 
 ```js
@@ -651,15 +611,19 @@ const [res1, res2] = await Promise.all([promise1, promise2]);
 
 ***
 
-
 ### Promise.allSettled — когда все промисы выполнятся или отклонятся
 
 ```js
-var promise1 = Promise.reject(3);
-var promise2 = 42;
+let promise1 = Promise.reject(3);
+let promise2 = 42;
 
 Promise.allSettled([promise1, promise2])
-.then(values => console.log(values));
+       .then(values => console.log(values));
+/* [
+    {"status": "rejected", "reason": 3},
+    {"status": "fulfilled", "value": 42}
+   ]
+*/
 
 ```
 
@@ -684,7 +648,7 @@ const [res1, res2] = await Promise.allSettled([promise1, promise2]);
 
 ### Задачка
 
-Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала Promise.all.
+Почти все наши запросы можно делать параллельно. Перепиши функцию `run`, чтобы она использовала `Promise.all`.
 
 <img src="assets/parallel-requests.png" alt="parallel requests in devTools">
 
@@ -698,6 +662,41 @@ const [res1, res2] = await Promise.allSettled([promise1, promise2]);
 ***
 
 ## [Интерактивная статья о микротасках](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Работа с сервером из React
+
+***
+
+
+### Где делать запросы?
+
+- Если компоненту нужны данные для того, чтобы отрисоваться?
+- Если компоненту надо после пользовательского события отправить запрос на сервер?
+
+
+***
+
+
+### Где делать запросы
+
+- Если компоненту нужны данные для того, чтобы отрисоваться? — *В методе жизненного цикла componentDidMount или в useEffect*
+- Если компоненту надо после пользовательского события отправить запрос на сервер? — *В обработчике события*
+
+
+***
+
+
+### Практика
+
+1. Перейди в директорию `tasks/react`
+2. Выполни команду `npm i`
+3. После установки зависимостей выполни команду `npm start`
+4. Открой отдельное окно терминала и выполни команду `npm run server` (из этой же директории)
+5. В файле `src/App/index.js` написаны условия задачи, выполни их!
 
 
 </script></section>
